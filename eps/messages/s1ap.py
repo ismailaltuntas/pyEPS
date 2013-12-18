@@ -110,3 +110,53 @@ def downlinkNasTransport(enbUeS1apId, mmeUeS1apId, nasPdu):
          "nasPdu": nasPdu,
         }
     )
+def initialContextSetupRequest(mmeUeS1apId, enbUeS1apId, erabtoBeSetupList, UEAggregateMaxBitRate, 
+    eRabID, eRabLevelQoSParameters, transportLayerAddress, gtpTeid, nasPdu, UeSecCapabilities, securityKey, 
+    UeRadioCapability, mmeUeS1apId2,maxnoofeRabs):
+    return (
+        "s1",
+        {
+         "streamId": 1
+         },
+         {
+          "messageType": {
+          "procedureCode": "initialContextSetup",
+          "typeOfMessage": "initiatingMessage"
+           },
+         "mmeUeS1apId": mmeUeS1apId,
+         "enbUeS1apId": enbUeS1apId,
+         "erabtoBeSetupList": erabtoBeSetupList,
+         "UEAggregateMaxBitRate":UEAggregateMaxBitRate,
+         "eRabID": eRabID,
+         "eRabLevelQoSParameters":eRabLevelQoSParameters,
+         "transportLayerAddress": transportLayerAddress,
+         "gtpTeid": gtpTeid,
+         "nasPdu": nasPdu,
+         "UeSecCapabilities": UeSecCapabilities,
+         "securityKey": securityKey,
+         "UeRadioCapability":UeRadioCapability,
+         "mmeUeS1apId2":mmeUeS1apId2,
+         "maxnoofeRabs": maxnoofeRabs,
+          }   
+    )
+def initialContextSetupResponse(mmeUeS1apId, enbUeS1apId, erabtoBeSetupList, eRabID, transportLayerAddress, 
+    gtpTeid, maxnoofeRabs):
+    return (
+        "s1",
+        {
+         "streamId": 1
+         },
+         {
+          "messageType": {
+          "procedureCode": "initialContextSetup",
+          "typeOfMessage": "successfulOutcome"
+           },
+         "mmeUeS1apId": mmeUeS1apId,
+         "enbUeS1apId": enbUeS1apId,
+         "erabtoBeSetupList": erabtoBeSetupList,
+         "eRabID": eRabID,
+         "transportLayerAddress": transportLayerAddress,
+         "gtpTeid": gtpTeid,
+         "maxnoofeRabs": maxnoofeRabs,
+          }   
+    )
