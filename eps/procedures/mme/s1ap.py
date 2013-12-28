@@ -1,4 +1,3 @@
-import random
 from eps.messages.s1ap import s1SetupResponse, s1SetupFailure
 from eps.messages.s1ap import initialContextSetupResponse
 
@@ -49,13 +48,16 @@ class S1SetupProcedureHandler(object):
         
 class initialContextSetupProcedureHandler(object):
     def __init__(self, ioService,):
-     Success, Failure = range(2)
+     Complete, Failure = range(2)
  
      def __init__(self, ioService, procedureCompletionCallback):
          self.ioService = ioService
          self.procedureCompletionCallback = procedureCompletionCallback
          self.outstandingProcedures = set()
-  
+         
+    def terminate(self):
+        pass
+    
     def handleIncomingMessage(self, source, message):
      def handleIncomingMessage(self, source, interface, channelInfo, message):
          if message["procedureCode"] == "initialContextSetup":
