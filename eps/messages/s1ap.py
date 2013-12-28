@@ -121,7 +121,7 @@ def initialContextSetupRequest(mmeUeS1apId, enbUeS1apId, erabtoBeSetupList, UEAg
          {
           "messageType": {
           "procedureCode": "initialContextSetup",
-          "typeOfMessage": "initiatingMessage"
+          "typeOfMessage": "initiatingUEContext"
            },
          "mmeUeS1apId": mmeUeS1apId,
          "enbUeS1apId": enbUeS1apId,
