@@ -9,9 +9,7 @@ import unittest
 from eps.utils.io import IoService, localhost
 from eps.procedures.enb.s1ap import initialContextSetupProcedure as EnbinitialContextSetupProcedure
 from eps.procedures.mme.s1ap import initialContextSetupProcedureHandler as EnbinitialContextSetupProcedureHandler
-from eps.nodes.enb.enb import Enb
-from eps.nodes.mme.mme import Mme
-from eps.messages.s1ap import initialContextSetupRequest, initialContextSetupResponse
+from eps.messages.s1ap import initialContextSetupRequest
 
 
 class TestinitialUeContextSetupProcedure(unittest.TestCase):

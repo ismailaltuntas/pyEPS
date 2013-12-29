@@ -1,5 +1,6 @@
 from eps.messages.s1ap import s1SetupRequest
 from eps.messages.s1ap import initialContextSetupResponse
+from eps.messages.s1ap import initialContextSetupRequest
 
 
 class S1SetupProcedure(object):
@@ -77,10 +78,13 @@ class initialContextSetupProcedure(object):
         if message["procedureCode"] == "initialContextSetup":
             self.mmeAddress = source
             mmeUeS1apId = message["mmeUeS1apId"]
+            enbUeS1apId = self["enbUeS1apId"]
             self.outstandingProcedures.remove(mmeUeS1apId)
             self.ioService.sendMessage(source, *initialContextSetupResponse(
                 mmeUeS1apId, "12"))
             self.procedureCompletionCallback(self.Complete, mmeUeS1apId)
+            return True
+        if initialContextSetupRequest[enbUeS1apId] == initialContextSetupResponse[mmeUeS1apId]:
             return True
         return False
     def start(self, mmeAddress, procedureCode="successfulOutcome", mmeUeS1apId="12"):
