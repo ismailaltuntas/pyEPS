@@ -1,5 +1,5 @@
 from eps.messages.s1ap import s1SetupResponse, s1SetupFailure
-from eps.messages.s1ap import initialContextSetupResponse
+from eps.messages.s1ap import initialContextSetupRequest
 
 class S1SetupProcedureHandler(object):
 
@@ -57,16 +57,17 @@ class initialContextSetupProcedureHandler(object):
     def terminate(self):
         pass
     
-    def handleIncomingMessage(self, source, interface, channelInfo, message):
+    def handleInitialUESetupMessage(self, source, interface, channelInfo, message):
         if message["procedureCode"] == "initialContextSetup":
-            mmeUeS1apId = message["mmeUeS1apId"]
-            self.outstandingProcedures.remove(mmeUeS1apId)
-            self.ioService.sendMessage(source, *initialContextSetupResponse(
-                mmeUeS1apId, "12"))
-            self.procedureCompletionCallback(self.Complete, mmeUeS1apId)
+            self.enbAddress = source
+            enbUeS1apId = message["enbUeS1apId"]
+            self.outstandingProcedures.remove(enbUeS1apId)
+            self.ioService.sendMessage(source, *initialContextSetupRequest(
+                enbUeS1apId, "12"))
+            self.procedureCompletionCallback(self.Complete, enbUeS1apId)
             return True
         return False
-    def start(self, ueAddress, procedureCode="successfulOutcome", mmeUeS1apId="12"):
-        self.ioService.sendMessage(ueAddress, *initialContextSetupResponse(
-            mmeUeS1apId, procedureCode))
-        self.outstandingProcedures.add(mmeUeS1apId)
+#    def start(self, enbAddress, procedureCode="successfulOutcome", enbUeS1apId="12"):
+#       self.ioService.sendMessage(enbAddress, *initialContextSetupRequest(
+#            enbUeS1apId, procedureCode))
+#        self.outstandingProcedures.add(enbUeS1apId)
