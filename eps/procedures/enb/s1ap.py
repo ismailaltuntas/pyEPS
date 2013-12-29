@@ -1,4 +1,5 @@
 from eps.messages.s1ap import s1SetupRequest
+from eps.messages.s1ap import initialContextSetupResponse
 
 
 class S1SetupProcedure(object):
@@ -61,3 +62,28 @@ class S1SetupProcedure(object):
         typeOfMessage = message["messageType"]["typeOfMessage"]
         assert mapping.get((procedureCode, typeOfMessage), "Cannot handle message: {}".format(message))
         mapping[procedureCode, typeOfMessage](message)
+        
+class initialContextSetupProcedure(object):
+ 
+    def __init__(self, ioService, procedureCompletionCallback):
+        self.ioService = ioService
+        self.procedureCompletionCallback = procedureCompletionCallback
+        self.outstandingProcedures = set()
+         
+    def terminate(self):
+        pass
+    
+    def handleIncomingMessage(self, source, interface, channelInfo, message):
+        if message["procedureCode"] == "initialContextSetup":
+            self.mmeAddress = source
+            mmeUeS1apId = message["mmeUeS1apId"]
+            self.outstandingProcedures.remove(mmeUeS1apId)
+            self.ioService.sendMessage(source, *initialContextSetupResponse(
+                mmeUeS1apId, "12"))
+            self.procedureCompletionCallback(self.Complete, mmeUeS1apId)
+            return True
+        return False
+    def start(self, mmeAddress, procedureCode="successfulOutcome", mmeUeS1apId="12"):
+        self.ioService.sendMessage(mmeAddress, *initialContextSetupResponse(
+            mmeUeS1apId, procedureCode))
+        self.outstandingProcedures.add(mmeUeS1apId)
